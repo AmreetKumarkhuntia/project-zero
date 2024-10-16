@@ -1,8 +1,8 @@
 {
 	"name": "create-svelte-project-zero",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"bin": {
-		"create-svelte-project-zero": "chmod +x ./scripts/publish-template.js && ./scripts/publish-template.js"
+		"create-svelte-project-zero": "./scripts/publish-template.js"
 	},
 	"scripts": {
 		"dev": "vite dev",
