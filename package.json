@@ -1,6 +1,6 @@
 {
 	"name": "create-svelte-project-zero",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"bin": {
 		"create-svelte-project-zero": "./scripts/clone-template.js"
 	},
@@ -12,7 +12,9 @@
 		"format:generated": "prettier --write ./src/generated/types/*",
 		"generate:types": "npx type-crafter generate typescript-with-decoders ./docs/types/project.yaml ./src/generated/types",
 		"generate:token:rsa": "node ./scripts/construct-rsa-pair.js",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"setup": "npm run setup",
+		"setup:env": "node ./scripts/create-env.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
