@@ -1,0 +1,33 @@
+{
+	"name": "project-zero",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format:generated": "prettier --write ./src/generated/types/*",
+		"generate:types": "npx type-crafter generate typescript-with-decoders ./docs/types/project.yaml ./src/generated/types",
+		"generate:token:rsa": "node ./scripts/constructRSAPair.js "
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/node": "^22.7.4",
+		"svelte": "^4.2.7",
+		"svelte-check": "^4.0.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.6.2",
+		"vite": "^5.0.3"
+	},
+	"type": "module",
+	"dependencies": {
+		"@types/jsonwebtoken": "^9.0.7",
+		"dotenv": "^16.4.5",
+		"jsonwebtoken": "^9.0.2",
+		"type-decoder": "^2.0.1"
+	}
+}

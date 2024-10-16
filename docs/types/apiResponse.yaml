@@ -1,0 +1,76 @@
+APISchema:
+  APIResponse:
+    type: object
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: string
+        enum:
+          - success
+          - error
+          - unauthorized
+          - not_found
+          - bad_request
+          - internal_server_error
+      message:
+        type: string
+      data:
+        type: object
+        additionalProperties: true
+
+  Token:
+    type: object
+    required:
+      - valid
+    properties:
+      valid:
+        type: boolean
+      decodedToken:
+        type: object
+        additionalProperties: true
+      error:
+        type: string
+
+  ServerAccess:
+    type: object
+    required:
+      - name
+      - paths
+      - serverAPIAccess
+    properties:
+      name:
+        type: string
+      paths:
+        type: array
+        items:
+          type: string
+      serverAPIAccess:
+        type: string
+        enum:
+          - READ
+          - WRITE
+          - ANY
+
+  TokenGenerateResponse:
+    type: object
+    properties:
+      token:
+        type: string
+      tokenData:
+        $ref: "./docs/types/apiResponse.yaml#/APISchema/ServerAccess"
+
+  VerifyTokenBody:
+    type: object
+    required:
+      - token
+      - checkFor
+    properties:
+      token:
+        type: string
+      checkFor:
+        type: string
+        enum:
+          - RSA
+          - JWT
