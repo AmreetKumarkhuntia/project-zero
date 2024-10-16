@@ -1,16 +1,18 @@
 {
-	"name": "project-zero",
-	"version": "0.0.1",
-	"private": true,
+	"name": "create-svelte-project-zero",
+	"version": "1.0.0",
+	"bin": {
+		"create-svelte-project-zero": "chmod +x ./scripts/publish-template.js && ./scripts/publish-template.js"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format:generated": "prettier --write ./src/generated/types/*",
 		"generate:types": "npx type-crafter generate typescript-with-decoders ./docs/types/project.yaml ./src/generated/types",
-		"generate:token:rsa": "node ./scripts/constructRSAPair.js "
+		"generate:token:rsa": "node ./scripts/construct-rsa-pair.js",
+		"preview": "vite preview"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
