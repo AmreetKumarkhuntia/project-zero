@@ -25,7 +25,7 @@ try {
     execSync(`npx degit ${projectLocation} ${projectName}`, { stdio: 'inherit' });
 
     const packageJsonPath = path.join(projectName, 'package.json');
-    const cloneScriptPath = path.join(projectName, 'clone-template.js'); // Path to the script to be removed
+    const cloneScriptPath = path.join(projectName, 'scripts', 'clone-template.js'); // Updated path to clone-template.js
 
     // Read and update package.json
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -40,10 +40,12 @@ try {
     // Run npm run setup
     execSync(`cd ${projectName} && npm run setup`, { stdio: 'inherit' });
 
-    // Remove clone-template.js
     if (fs.existsSync(cloneScriptPath)) {
+        console.log(`${colors.cyan}Found clone-template.js at: ${cloneScriptPath}${colors.reset}`);
         fs.unlinkSync(cloneScriptPath);
         console.log(`${separator}${colors.green}Removed clone-template.js${colors.reset}`);
+    } else {
+        console.log(`${colors.yellow}clone-template.js not found at: ${cloneScriptPath}${colors.reset}`);
     }
 
     console.log(`${separator}${colors.green}🎉 Project ${projectName} created and setup successfully!${colors.reset}`);
