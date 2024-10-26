@@ -1,4 +1,4 @@
-import type { Token } from "$generated/types";
+import type { Token } from '$generated/types';
 import {
   superUserKey,
   jwtSecret,
@@ -6,14 +6,14 @@ import {
   jwtIssuer,
   publicRSAKey,
   privateRSAKey,
-} from "$server/config";
-import jwt from "jsonwebtoken";
+} from '$server/config';
+import jwt from 'jsonwebtoken';
 
 export function isSuperUserKeyValid(headers: Headers): boolean {
-  const authKeyBearer = headers.get("Authorization");
-  const [preAuth, authKey] = authKeyBearer?.split(" ") ?? [null, null];
+  const authKeyBearer = headers.get('Authorization');
+  const [preAuth, authKey] = authKeyBearer?.split(' ') ?? [null, null];
 
-  if (preAuth === "Bearer" && authKey === superUserKey) {
+  if (preAuth === 'Bearer' && authKey === superUserKey) {
     return true;
   }
 
@@ -29,7 +29,7 @@ export function constructJWTToken(payload: object) {
 
     return jwt.sign(payload, jwtSecret, signOptions);
   } catch (err) {
-    console.log("construct token error:", String(err));
+    console.log('construct token error:', String(err));
     return null;
   }
 }
@@ -57,7 +57,7 @@ export function verifyJWTToken(token: string): Token | null {
 
 export function constructRSAToken(payload: object): string {
   const signOptions: jwt.SignOptions = {
-    algorithm: "RS256",
+    algorithm: 'RS256',
   };
 
   const token = jwt.sign(payload, privateRSAKey, {
@@ -71,7 +71,7 @@ export function verifyRSAToken(token: string): Token | null {
   let jwtToken: Token | null = null;
 
   const verifyOptions: jwt.VerifyOptions = {
-    algorithms: ["RS256"],
+    algorithms: ['RS256'],
   };
 
   try {

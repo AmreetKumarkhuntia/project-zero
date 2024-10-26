@@ -59,7 +59,7 @@ APISchema:
       token:
         type: string
       tokenData:
-        $ref: "./docs/types/apiResponse.yaml#/APISchema/ServerAccess"
+        $ref: './docs/types/APISchema.yaml#/APISchema/ServerAccess'
 
   VerifyTokenBody:
     type: object

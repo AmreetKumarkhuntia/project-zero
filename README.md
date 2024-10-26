@@ -5,11 +5,13 @@ Everything you need to build a Svelte project with an API skeleton, powered by [
 ## Project Overview
 
 This template provides a foundational setup for building Svelte applications, including:
+
 - An API skeleton to get you started with backend logic.
 - Basic routes for generating and managing API keys.
 - Pre-configured settings for rapid development.
 
 ## Table of Contents
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [Development](#development)
@@ -49,11 +51,15 @@ Install the dependencies using your package manager of choice:
 ```bash
 npm install
 ```
+
 or
+
 ```bash
 yarn install
 ```
+
 or
+
 ```bash
 pnpm install
 ```
