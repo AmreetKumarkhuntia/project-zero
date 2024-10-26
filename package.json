@@ -1,37 +1,41 @@
 {
-	"name": "create-svelte-project-zero",
-	"version": "1.0.7",
-	"bin": {
-		"create-svelte-project-zero": "./scripts/clone-template.js"
-	},
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format:generated": "prettier --write ./src/generated/types/*",
-		"generate:types": "npx type-crafter generate typescript-with-decoders ./docs/types/project.yaml ./src/generated/types",
-		"generate:token:rsa": "node ./scripts/construct-rsa-pair.js",
-		"preview": "vite preview",
-		"setup": "node ./scripts/setup.js",
-		"setup:env": "node ./scripts/create-env.js"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.0",
-		"@types/node": "^22.7.4",
-		"svelte": "^4.2.7",
-		"svelte-check": "^4.0.0",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.6.2",
-		"vite": "^5.0.3"
-	},
-	"type": "module",
-	"dependencies": {
-		"@types/jsonwebtoken": "^9.0.7",
-		"dotenv": "^16.4.5",
-		"jsonwebtoken": "^9.0.2",
-		"type-decoder": "^2.0.1"
-	}
+  "name": "create-svelte-project-zero",
+  "version": "1.0.8",
+  "bin": {
+    "create-svelte-project-zero": "./scripts/clone-template.js"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "format:generated": "prettier --write ./src/generated/types/*",
+    "format": "git diff --name-only --cached | xargs npx prettier --write",
+    "generate:types": "npx type-crafter generate typescript-with-decoders ./docs/types/project.yaml ./src/generated/types",
+    "generate:token:rsa": "node ./scripts/construct-rsa-pair.js",
+    "preview": "vite preview",
+    "setup": "node ./scripts/setup.js",
+    "setup:env": "node ./scripts/create-env.js",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@types/node": "^22.7.4",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
+    "svelte": "^4.2.7",
+    "svelte-check": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.0.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "type-decoder": "^2.0.1"
+  }
 }

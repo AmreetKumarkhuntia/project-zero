@@ -1,14 +1,14 @@
-import type { RequestEvent } from "@sveltejs/kit";
-import { APIResponseHandler } from "$utils/server/APISchema";
-import { constructRSAToken, isSuperUserKeyValid } from "$server/keyStore";
+import type { RequestEvent } from '@sveltejs/kit';
+import { APIResponseHandler } from '$utils/server/APISchema';
+import { constructRSAToken, isSuperUserKeyValid } from '$server/keyStore';
 import {
   decodeServerAccess,
   type TokenGenerateResponse,
-} from "$generated/types";
+} from '$generated/types';
 
 export async function POST({ request }: RequestEvent) {
   let response = APIResponseHandler.badRequestResponse(
-    "Bad request !!!. No processing"
+    'Bad request !!!. No processing'
   );
   const headers = request.headers;
   const reqBody = await request.json();
@@ -16,14 +16,14 @@ export async function POST({ request }: RequestEvent) {
   let tokenGenerateResponse: TokenGenerateResponse;
 
   console.log(
-    "POST generateToken | requestRecieved | ",
+    'POST generateToken | requestRecieved | ',
     JSON.stringify(decodedTokenPayload)
   );
 
   try {
     if (!isSuperUserKeyValid(headers)) {
       response = APIResponseHandler.unauthorizedResponse(
-        "Wrong token provided"
+        'Wrong token provided'
       );
     } else {
       if (decodedTokenPayload) {
@@ -33,19 +33,19 @@ export async function POST({ request }: RequestEvent) {
           tokenData: decodedTokenPayload,
         };
         response = APIResponseHandler.successResponse(
-          "creation success",
+          'creation success',
           tokenGenerateResponse
         );
       } else {
         response = APIResponseHandler.badRequestResponse(
-          "Unable to decode payload."
+          'Unable to decode payload.'
         );
       }
     }
   } catch (error) {
-    console.log("POST generateToken | exception | ", String(error));
+    console.log('POST generateToken | exception | ', String(error));
     response = APIResponseHandler.internalServerErrorResponse(String(error));
   }
-  console.log("POST generateToken | responseReturned | ", {});
+  console.log('POST generateToken | responseReturned | ', {});
   return response;
 }

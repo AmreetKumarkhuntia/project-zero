@@ -3,4 +3,4 @@ info:
   title: Title of your specification
 groupedTypes:
   APISchema:
-    $ref: "./docs/types/apiResponse.yaml#/APISchema"
+    $ref: './docs/types/APISchema.yaml#/APISchema'

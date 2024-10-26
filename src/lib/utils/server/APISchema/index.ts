@@ -2,7 +2,7 @@ import {
   type StatusEnum,
   type APIResponseData,
   type APIResponse,
-} from "$generated/types";
+} from '$generated/types';
 
 export class APIResponseHandler {
   private status: StatusEnum | null = null;
@@ -33,7 +33,7 @@ export class APIResponseHandler {
   build() {
     if (!this.status || !this.message || !this.code) {
       throw new Error(
-        "Status, message, and code are required to build an ApiResponse."
+        'Status, message, and code are required to build an ApiResponse.'
       );
     }
     const response: APIResponse = {
@@ -53,7 +53,7 @@ export class APIResponseHandler {
     code: number = 200
   ) {
     return new APIResponseHandler()
-      .setStatus("success")
+      .setStatus('success')
       .setMessage(message)
       .setData(data)
       .setCode(code)
@@ -66,7 +66,7 @@ export class APIResponseHandler {
     code: number = 401
   ) {
     return new APIResponseHandler()
-      .setStatus("unauthorized")
+      .setStatus('unauthorized')
       .setMessage(message)
       .setData(data)
       .setCode(code)
@@ -79,7 +79,7 @@ export class APIResponseHandler {
     code: number = 404
   ) {
     return new APIResponseHandler()
-      .setStatus("not_found")
+      .setStatus('not_found')
       .setMessage(message)
       .setData(data)
       .setCode(code)
@@ -92,7 +92,7 @@ export class APIResponseHandler {
     code: number = 400
   ) {
     return new APIResponseHandler()
-      .setStatus("bad_request")
+      .setStatus('bad_request')
       .setMessage(message)
       .setData(data)
       .setCode(code)
@@ -105,7 +105,7 @@ export class APIResponseHandler {
     code: number = 500
   ) {
     return new APIResponseHandler()
-      .setStatus("internal_server_error")
+      .setStatus('internal_server_error')
       .setMessage(message)
       .setData(data)
       .setCode(code)
