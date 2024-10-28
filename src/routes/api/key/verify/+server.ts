@@ -1,11 +1,12 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import { APIResponseHandler } from '$utils/server/APISchema';
+import { APIResponseHandler } from '$server/APISchema';
 import { decodeVerifyTokenBody, type Token } from '$generated/types';
 import {
   isSuperUserKeyValid,
   verifyJWTToken,
   verifyRSAToken,
 } from '$server/keyStore';
+import { logger } from '$server/logger';
 
 export async function POST({ request }: RequestEvent) {
   let response = APIResponseHandler.badRequestResponse(
@@ -15,12 +16,10 @@ export async function POST({ request }: RequestEvent) {
   const headers = request.headers;
   const decodedVerifyTokenPayload = decodeVerifyTokenBody(reqBody);
   const checkFor = decodedVerifyTokenPayload?.checkFor ?? null;
+  const loggerTag = 'POST /api/key/verify';
   let tokenData: Token | null = null;
 
-  console.log(
-    'POST verifyToken | requestRecieved | ',
-    JSON.stringify({ checkFor })
-  );
+  logger.logServerRequest(loggerTag, { reqBody, checkFor });
 
   try {
     if (!isSuperUserKeyValid(headers)) {
@@ -29,12 +28,15 @@ export async function POST({ request }: RequestEvent) {
       );
     } else {
       if (decodedVerifyTokenPayload) {
-        if (checkFor === 'JWT') {
-          tokenData = verifyJWTToken(decodedVerifyTokenPayload.token);
-        } else if (checkFor === 'RSA') {
-          tokenData = verifyRSAToken(decodedVerifyTokenPayload.token);
-        } else {
-          tokenData = null;
+        switch (checkFor) {
+          case 'JWT':
+            tokenData = verifyJWTToken(decodedVerifyTokenPayload.token);
+            break;
+          case 'RSA':
+            tokenData = verifyRSAToken(decodedVerifyTokenPayload.token);
+            break;
+          default:
+            tokenData = null;
         }
         response = APIResponseHandler.successResponse('Success', tokenData);
       } else {
@@ -44,12 +46,11 @@ export async function POST({ request }: RequestEvent) {
       }
     }
   } catch (error) {
-    console.log('POST verifyToken | exception | ', String(error));
+    logger.logException(loggerTag, String(error));
     response = APIResponseHandler.internalServerErrorResponse(String(error));
   }
-  console.log(
-    'POST verifyToken | responseReturned | ',
-    JSON.stringify(tokenData)
-  );
-  return response;
+  logger.logServerResponse(loggerTag, {
+    response,
+  });
+  return APIResponseHandler.toResponse(response);
 }

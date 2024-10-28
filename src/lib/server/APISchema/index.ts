@@ -40,11 +40,9 @@ export class APIResponseHandler {
       status: this.status,
       message: this.message,
       data: this.data,
+      code: this.code ?? 400,
     };
-    const my = new Response(JSON.stringify(response), {
-      status: this.code,
-    });
-    return my;
+    return response;
   }
 
   static successResponse(
@@ -110,5 +108,11 @@ export class APIResponseHandler {
       .setData(data)
       .setCode(code)
       .build();
+  }
+
+  static toResponse(response: APIResponse) {
+    return new Response(JSON.stringify(response), {
+      status: response.code,
+    });
   }
 }

@@ -1,11 +1,13 @@
 import type { RequestEvent } from '@sveltejs/kit';
-import { APIResponseHandler } from '$utils/server/APISchema';
+import { APIResponseHandler } from '$server/APISchema';
 import { constructRSAToken, isSuperUserKeyValid } from '$server/keyStore';
 import {
   decodeServerAccess,
   type TokenGenerateResponse,
 } from '$generated/types';
+import { logger } from '$server/logger';
 
+// TODO: add support for JWT/any other method support
 export async function POST({ request }: RequestEvent) {
   let response = APIResponseHandler.badRequestResponse(
     'Bad request !!!. No processing'
@@ -13,12 +15,10 @@ export async function POST({ request }: RequestEvent) {
   const headers = request.headers;
   const reqBody = await request.json();
   const decodedTokenPayload = decodeServerAccess(reqBody);
+  const loggerTag = 'POST /api/key/generate';
   let tokenGenerateResponse: TokenGenerateResponse;
 
-  console.log(
-    'POST generateToken | requestRecieved | ',
-    JSON.stringify(decodedTokenPayload)
-  );
+  logger.logServerRequest(loggerTag, { decodedTokenPayload });
 
   try {
     if (!isSuperUserKeyValid(headers)) {
@@ -43,9 +43,9 @@ export async function POST({ request }: RequestEvent) {
       }
     }
   } catch (error) {
-    console.log('POST generateToken | exception | ', String(error));
+    logger.logException(loggerTag, String(error));
     response = APIResponseHandler.internalServerErrorResponse(String(error));
   }
-  console.log('POST generateToken | responseReturned | ', {});
-  return response;
+  logger.logServerResponse(loggerTag, { response });
+  return APIResponseHandler.toResponse(response);
 }
