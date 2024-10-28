@@ -1,9 +1,15 @@
-import { isJSON, decodeString, decodeBoolean, decodeArray } from 'type-decoder';
+import {
+  isJSON,
+  decodeString,
+  decodeNumber,
+  decodeBoolean,
+  decodeArray,
+} from 'type-decoder';
 
 /**
  * @type { APIResponse }
  */
-export type APIResponse =   {
+export type APIResponse = {
   /**
    * @type { StatusEnum }
    * @memberof APIResponse
@@ -15,6 +21,11 @@ export type APIResponse =   {
    */
   message: string;
   /**
+   * @type { number }
+   * @memberof APIResponse
+   */
+  code: number;
+  /**
    * @type { APIResponseData }
    * @memberof APIResponse
    */
@@ -23,13 +34,15 @@ export type APIResponse =   {
 
 export function decodeAPIResponse(rawInput: unknown): APIResponse | null {
   if (isJSON(rawInput)) {
-    const decodedStatus =  decodeStatusEnum(rawInput['status']);
-    const decodedMessage =  decodeString(rawInput['message']);
-    const decodedData =  decodeAPIResponseData(rawInput['data']);
+    const decodedStatus = decodeStatusEnum(rawInput['status']);
+    const decodedMessage = decodeString(rawInput['message']);
+    const decodedCode = decodeNumber(rawInput['code']);
+    const decodedData = decodeAPIResponseData(rawInput['data']);
 
     if (
       decodedStatus === null ||
-      decodedMessage === null
+      decodedMessage === null ||
+      decodedCode === null
     ) {
       return null;
     }
@@ -37,6 +50,7 @@ export function decodeAPIResponse(rawInput: unknown): APIResponse | null {
     return {
       status: decodedStatus,
       message: decodedMessage,
+      code: decodedCode,
       data: decodedData,
     };
   }
@@ -47,10 +61,10 @@ export function decodeAPIResponse(rawInput: unknown): APIResponse | null {
  */
 export type APIResponseData = Record<string, unknown>;
 
-export function decodeAPIResponseData(rawInput: unknown): APIResponseData | null {
+export function decodeAPIResponseData(
+  rawInput: unknown
+): APIResponseData | null {
   if (isJSON(rawInput)) {
-
-
     return {
       ...rawInput,
     };
@@ -66,8 +80,7 @@ export type StatusEnum =
   | 'unauthorized'
   | 'not_found'
   | 'bad_request'
-  | 'internal_server_error'
-;
+  | 'internal_server_error';
 
 export function decodeStatusEnum(rawInput: unknown): StatusEnum | null {
   switch (rawInput) {
@@ -77,7 +90,7 @@ export function decodeStatusEnum(rawInput: unknown): StatusEnum | null {
     case 'not_found':
     case 'bad_request':
     case 'internal_server_error':
-     return rawInput;
+      return rawInput;
   }
   return null;
 }
@@ -85,7 +98,7 @@ export function decodeStatusEnum(rawInput: unknown): StatusEnum | null {
 /**
  * @type { Token }
  */
-export type Token =   {
+export type Token = {
   /**
    * @type { boolean }
    * @memberof Token
@@ -105,13 +118,13 @@ export type Token =   {
 
 export function decodeToken(rawInput: unknown): Token | null {
   if (isJSON(rawInput)) {
-    const decodedValid =  decodeBoolean(rawInput['valid']);
-    const decodedDecodedToken =  decodeTokenDecodedToken(rawInput['decodedToken']);
-    const decodedError =  decodeString(rawInput['error']);
+    const decodedValid = decodeBoolean(rawInput['valid']);
+    const decodedDecodedToken = decodeTokenDecodedToken(
+      rawInput['decodedToken']
+    );
+    const decodedError = decodeString(rawInput['error']);
 
-    if (
-      decodedValid === null
-    ) {
+    if (decodedValid === null) {
       return null;
     }
 
@@ -128,10 +141,10 @@ export function decodeToken(rawInput: unknown): Token | null {
  */
 export type TokenDecodedToken = Record<string, unknown>;
 
-export function decodeTokenDecodedToken(rawInput: unknown): TokenDecodedToken | null {
+export function decodeTokenDecodedToken(
+  rawInput: unknown
+): TokenDecodedToken | null {
   if (isJSON(rawInput)) {
-
-
     return {
       ...rawInput,
     };
@@ -142,7 +155,7 @@ export function decodeTokenDecodedToken(rawInput: unknown): TokenDecodedToken | 
 /**
  * @type { ServerAccess }
  */
-export type ServerAccess =   {
+export type ServerAccess = {
   /**
    * @type { string }
    * @memberof ServerAccess
@@ -162,9 +175,11 @@ export type ServerAccess =   {
 
 export function decodeServerAccess(rawInput: unknown): ServerAccess | null {
   if (isJSON(rawInput)) {
-    const decodedName =  decodeString(rawInput['name']);
-    const decodedPaths =  decodeArray(rawInput['paths'], decodeString);
-    const decodedServerAPIAccess =  decodeServerAPIAccessEnum(rawInput['serverAPIAccess']);
+    const decodedName = decodeString(rawInput['name']);
+    const decodedPaths = decodeArray(rawInput['paths'], decodeString);
+    const decodedServerAPIAccess = decodeServerAPIAccessEnum(
+      rawInput['serverAPIAccess']
+    );
 
     if (
       decodedName === null ||
@@ -185,18 +200,16 @@ export function decodeServerAccess(rawInput: unknown): ServerAccess | null {
 /**
  * @type { ServerAPIAccessEnum }
  */
-export type ServerAPIAccessEnum =
-  | 'READ'
-  | 'WRITE'
-  | 'ANY'
-;
+export type ServerAPIAccessEnum = 'READ' | 'WRITE' | 'ANY';
 
-export function decodeServerAPIAccessEnum(rawInput: unknown): ServerAPIAccessEnum | null {
+export function decodeServerAPIAccessEnum(
+  rawInput: unknown
+): ServerAPIAccessEnum | null {
   switch (rawInput) {
     case 'READ':
     case 'WRITE':
     case 'ANY':
-     return rawInput;
+      return rawInput;
   }
   return null;
 }
@@ -204,7 +217,7 @@ export function decodeServerAPIAccessEnum(rawInput: unknown): ServerAPIAccessEnu
 /**
  * @type { TokenGenerateResponse }
  */
-export type TokenGenerateResponse =   {
+export type TokenGenerateResponse = {
   /**
    * @type { string }
    * @memberof TokenGenerateResponse
@@ -217,11 +230,12 @@ export type TokenGenerateResponse =   {
   tokenData: ServerAccess | null;
 };
 
-export function decodeTokenGenerateResponse(rawInput: unknown): TokenGenerateResponse | null {
+export function decodeTokenGenerateResponse(
+  rawInput: unknown
+): TokenGenerateResponse | null {
   if (isJSON(rawInput)) {
-    const decodedToken =  decodeString(rawInput['token']);
-    const decodedTokenData =  decodeServerAccess(rawInput['tokenData']);
-
+    const decodedToken = decodeString(rawInput['token']);
+    const decodedTokenData = decodeServerAccess(rawInput['tokenData']);
 
     return {
       token: decodedToken,
@@ -234,7 +248,7 @@ export function decodeTokenGenerateResponse(rawInput: unknown): TokenGenerateRes
 /**
  * @type { VerifyTokenBody }
  */
-export type VerifyTokenBody =   {
+export type VerifyTokenBody = {
   /**
    * @type { string }
    * @memberof VerifyTokenBody
@@ -247,15 +261,14 @@ export type VerifyTokenBody =   {
   checkFor: CheckForEnum;
 };
 
-export function decodeVerifyTokenBody(rawInput: unknown): VerifyTokenBody | null {
+export function decodeVerifyTokenBody(
+  rawInput: unknown
+): VerifyTokenBody | null {
   if (isJSON(rawInput)) {
-    const decodedToken =  decodeString(rawInput['token']);
-    const decodedCheckFor =  decodeCheckForEnum(rawInput['checkFor']);
+    const decodedToken = decodeString(rawInput['token']);
+    const decodedCheckFor = decodeCheckForEnum(rawInput['checkFor']);
 
-    if (
-      decodedToken === null ||
-      decodedCheckFor === null
-    ) {
+    if (decodedToken === null || decodedCheckFor === null) {
       return null;
     }
 
@@ -269,19 +282,13 @@ export function decodeVerifyTokenBody(rawInput: unknown): VerifyTokenBody | null
 /**
  * @type { CheckForEnum }
  */
-export type CheckForEnum =
-  | 'RSA'
-  | 'JWT'
-;
+export type CheckForEnum = 'RSA' | 'JWT';
 
 export function decodeCheckForEnum(rawInput: unknown): CheckForEnum | null {
   switch (rawInput) {
     case 'RSA':
     case 'JWT':
-     return rawInput;
+      return rawInput;
   }
   return null;
 }
-
-
-

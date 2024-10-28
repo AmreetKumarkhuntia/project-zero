@@ -4,6 +4,7 @@ APISchema:
     required:
       - status
       - message
+      - code
     properties:
       status:
         type: string
@@ -16,6 +17,8 @@ APISchema:
           - internal_server_error
       message:
         type: string
+      code:
+        type: number
       data:
         type: object
         additionalProperties: true
