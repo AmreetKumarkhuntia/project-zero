@@ -34,9 +34,13 @@
   "type": "module",
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/pg": "^8.11.10",
+    "@types/redis": "^4.0.10",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.2",
     "lilac-typescript": "^1.1.0",
+    "pg": "^8.13.1",
+    "redis": "^4.7.0",
     "type-decoder": "^2.0.1"
   }
 }
