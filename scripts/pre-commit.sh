@@ -2,4 +2,4 @@
 echo "RUNNING TESTS"
 npm run format
 npm run check
-npm run build 
+npm run build

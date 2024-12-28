@@ -1,0 +1,9 @@
+scripts/
+dist/
+build/
+node_modules/
+.sh
+.gitignore
+.npmrc
+LICENSE
+example.env
