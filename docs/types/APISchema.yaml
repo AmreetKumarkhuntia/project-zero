@@ -5,6 +5,7 @@ APISchema:
       - status
       - message
       - code
+    additionalProperties: true
     properties:
       status:
         type: string
@@ -19,9 +20,6 @@ APISchema:
         type: string
       code:
         type: number
-      data:
-        type: object
-        additionalProperties: true
 
   Token:
     type: object
